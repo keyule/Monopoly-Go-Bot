@@ -73,7 +73,7 @@ class BluestacksManager:
         if len(self.client.devices()) == 0:
             print("No devices connected")
             exit(1)
-        self.device = self.client.devices()[2]
+        self.device = self.client.devices()[1]  
 
 class AdbManager:
     def __init__(self, adb_device):
@@ -587,6 +587,7 @@ class Bot:
                 else:
                     self.build_buildings()
                     gotDice = self.roll_dice_once()
+                    print(f"testing after building: {gotDice}")
             elif not gotDice:
                 print("no more dice")
                 break
