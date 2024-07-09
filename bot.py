@@ -273,8 +273,9 @@ class Bot:
         while not self.adb_Manager.find_and_check_exist(GO_BUTTON):
             screen = self.adb_Manager.capture_screen()
             if self.adb_Manager.check_exists(screen, HEIST):
-                print("Opening door...")
-                self.adb_Manager.click_image(screen, HEIST)
+                doors = self.adb_Manager.check_exists_multiple(screen, HEIST, 7)
+                for coords in doors:
+                    self.adb_Manager.click_button(coords)
             elif self.adb_Manager.check_exists(screen, COLLECT):
                 print("Collecting Money...")
                 self.adb_Manager.click_image(screen, COLLECT)
@@ -507,10 +508,14 @@ class Bot:
                     break
                 elif self.adb_Manager.check_exists(screen, BUILD_ICON):
                     print("building building...")
-                    self.adb_Manager.click_image(screen, BUILD_ICON)
+                    buildings = self.adb_Manager.check_exists_multiple(screen, BUILD_ICON, 5)
+                    sorted_buildings = sorted(buildings)
+                    for coords in sorted_buildings:
+                        self.adb_Manager.click_button(coords)
                 else:
                     self.close_stuff()
                     break
+                time.sleep(2)
             while not self.adb_Manager.find_and_check_exist(GO_BUTTON):
                 self.close_stuff()
 

@@ -59,7 +59,7 @@ def find_top_templates(large_image_path, template_path, top_n=3, min_distance=10
     return middle_coords
 
 # Example usage:
-large_image_path = 'screenshot.png'
-template_path = 'greyCross.png'
+large_image_path = 'buildbuildings.png'
+template_path = 'buildMoney.png'
 middle_coords = find_top_templates(large_image_path, template_path, top_n=10, threshold=0.8)
 print(middle_coords)
