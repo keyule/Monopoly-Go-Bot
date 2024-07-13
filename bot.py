@@ -56,6 +56,8 @@ STICKER_SEND = os.path.join(IMAGE_DIR, "stickerSend.png")
 CLAIM = os.path.join(IMAGE_DIR, "claim.png")
 CASHGRAB = os.path.join(IMAGE_DIR, "cashgrab.png")
 LETSROLL = os.path.join(IMAGE_DIR, "letsRoll.png")
+ROLLOUT = os.path.join(IMAGE_DIR, "rollOut.png")
+FREEROLL = os.path.join(IMAGE_DIR, "freeRoll.png")
 
 class BluestacksManager:
     def __init__(self):
@@ -303,7 +305,7 @@ class Bot:
                 print("Collecting Money...")
                 self.adb_Manager.click_image(screen, COLLECT)
             elif self.adb_Manager.check_exists(screen, SKIP):
-                print("Found WHEEL SPIN: SPINNING")
+                print("Found SKIP")
                 self.adb_Manager.click_image(screen, SKIP)
 
             time.sleep(2)
@@ -314,8 +316,15 @@ class Bot:
         print("Closing crap...")
         while not self.adb_Manager.find_and_check_exist(GO_BUTTON):
             screen = self.adb_Manager.capture_screen()
-
-            if self.adb_Manager.check_exists(screen, RED_CROSS):
+            if self.adb_Manager.check_exists(screen, SHUTDOWN):
+                print("In Shutdown: Attacking player!")
+                self.adb_Manager.click_image(screen, SHUTDOWN)
+                time.sleep(0.5)
+                self.handle_shutdown()
+            elif self.adb_Manager.check_exists(screen, HEIST):
+                print("In Bank Heist: Robbing player!")
+                self.handle_bankHeist()
+            elif self.adb_Manager.check_exists(screen, RED_CROSS):
                 print("Found Red Cross: Clicking on Cross")
                 self.adb_Manager.click_image(screen, RED_CROSS)
             elif self.adb_Manager.check_exists(screen, COLLECT):
@@ -337,7 +346,7 @@ class Bot:
                 print("Found WHEEL SPIN: SPINNING")
                 self.adb_Manager.click_image(screen, WHEEL_SPIN)
             elif self.adb_Manager.check_exists(screen, SKIP):
-                print("Found WHEEL SPIN: SPINNING")
+                print("Found Skip")
                 self.adb_Manager.click_image(screen, SKIP)
             elif self.adb_Manager.check_exists(screen, RED_CROSS2):
                 print("Found Red Cross: Clicking on Cross")
@@ -345,14 +354,10 @@ class Bot:
             elif self.adb_Manager.check_exists(screen, LETSROLL):
                 print("Found Lets ROLL")
                 self.adb_Manager.click_image(screen, LETSROLL)
-            elif self.adb_Manager.check_exists(screen, SHUTDOWN):
-                print("In Shutdown: Attacking player!")
-                self.adb_Manager.click_image(screen, SHUTDOWN)
-                time.sleep(0.5)
-                self.handle_shutdown()
-            elif self.adb_Manager.check_exists(screen, HEIST):
-                print("In Bank Heist: Robbing player!")
-                self.handle_bankHeist()
+            elif self.adb_Manager.check_exists(screen, ROLLOUT):
+                print("Found ROLLOUT")
+                self.adb_Manager.click_image(screen, ROLLOUT)
+
             time.sleep(3.5)
             
         time.sleep(1)
@@ -423,14 +428,17 @@ class Bot:
                 print("Found WHEEL SPIN: SPINNING")
                 self.adb_Manager.click_image(screen, WHEEL_SPIN)
             elif self.adb_Manager.check_exists(screen, SKIP):
-                print("Found WHEEL SPIN: SPINNING")
+                print("Found SKIP")
                 self.adb_Manager.click_image(screen, SKIP)
             elif self.adb_Manager.check_exists(screen, CLAIM):
-                print("Found WHEEL SPIN: SPINNING")
+                print("Found Claimm")
                 self.adb_Manager.click_image(screen, CLAIM)
             elif self.adb_Manager.check_exists(screen, CASHGRAB):
-                print("Found WHEEL SPIN: SPINNING")
+                print("Found CASHGRAB")
                 self.adb_Manager.click_image(screen, CASHGRAB)
+            elif self.adb_Manager.check_exists(screen, FREEROLL):
+                print("Found free roll")
+                self.adb_Manager.click_image(screen, FREEROLL)
             else:
                 if self.adb_Manager.check_exists(screen, OUT_OF_DICE):
                     print("Out of dice! Stopping...")
@@ -476,7 +484,7 @@ class Bot:
                 time.sleep(3)
                 while not self.adb_Manager.check_exists(screen, CHEST_DONE):
                     screen = self.adb_Manager.capture_screen()
-                    if self.adb_Manager.check_exists(screen, CHEST_TRIANGLE):
+                    if self.adb_Manager.check_exists(screen, CHEST_TRIANGLE): # can fix this 
                         print("Spamming...")
                         self.adb_Manager.spam_chest()
                         time.sleep(3)
@@ -562,14 +570,20 @@ class Bot:
                 print("Found WHEEL SPIN: SPINNING")
                 self.adb_Manager.click_image(screen, WHEEL_SPIN)
             elif self.adb_Manager.check_exists(screen, SKIP):
-                print("Found WHEEL SPIN: SPINNING")
+                print("Found SKIP")
                 self.adb_Manager.click_image(screen, SKIP)
             elif self.adb_Manager.check_exists(screen, CLAIM):
-                print("Found WHEEL SPIN: SPINNING")
+                print("Found CLAIM")
                 self.adb_Manager.click_image(screen, CLAIM)
             elif self.adb_Manager.check_exists(screen, CASHGRAB):
-                print("Found WHEEL SPIN: SPINNING")
+                print("Found CASHGRAB")
                 self.adb_Manager.click_image(screen, CASHGRAB)
+            elif self.adb_Manager.check_exists(screen, ROLLOUT):
+                print("Found ROLLOUT")
+                self.adb_Manager.click_image(screen, ROLLOUT)
+            elif self.adb_Manager.check_exists(screen, FREEROLL):
+                print("Found free roll")
+                self.adb_Manager.click_image(screen, FREEROLL)
             else:
                 if self.adb_Manager.check_exists(screen, OUT_OF_DICE):
                     print("Out of dice! Stopping...")
@@ -603,9 +617,10 @@ class Bot:
                 time.sleep(1)
                 while self.adb_Manager.find_and_check_exist(DAILY_CLAIM):
                     screen = self.adb_Manager.capture_screen()
-                    print("Some screen? Closing...")
-                    self.adb_Manager.click_image(screen, DAILY_CLAIM)
-                    time.sleep(1)
+                    print("Claiming Dailies")
+                    claims = self.adb_Manager.check_exists_multiple(screen, DAILY_CLAIM, 3)
+                    for coords in claims:
+                        self.adb_Manager.click_button(coords)
                     self.close_stuff()
                 print("FINISHED dailies")
             else:
