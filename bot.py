@@ -58,6 +58,7 @@ CASHGRAB = os.path.join(IMAGE_DIR, "cashgrab.png")
 LETSROLL = os.path.join(IMAGE_DIR, "letsRoll.png")
 ROLLOUT = os.path.join(IMAGE_DIR, "rollOut.png")
 FREEROLL = os.path.join(IMAGE_DIR, "freeRoll.png")
+RETURN = os.path.join(IMAGE_DIR, "return.png")
 
 class BluestacksManager:
     def __init__(self):
@@ -357,6 +358,9 @@ class Bot:
             elif self.adb_Manager.check_exists(screen, ROLLOUT):
                 print("Found ROLLOUT")
                 self.adb_Manager.click_image(screen, ROLLOUT)
+            elif self.adb_Manager.check_exists(screen, RETURN):
+                print("Found RETURN")
+                self.adb_Manager.click_image(screen, RETURN)
 
             time.sleep(3.5)
             
@@ -439,6 +443,9 @@ class Bot:
             elif self.adb_Manager.check_exists(screen, FREEROLL):
                 print("Found free roll")
                 self.adb_Manager.click_image(screen, FREEROLL)
+            elif self.adb_Manager.check_exists(screen, RETURN):
+                print("Found RETURN")
+                self.adb_Manager.click_image(screen, RETURN)
             else:
                 if self.adb_Manager.check_exists(screen, OUT_OF_DICE):
                     print("Out of dice! Stopping...")
@@ -584,6 +591,9 @@ class Bot:
             elif self.adb_Manager.check_exists(screen, FREEROLL):
                 print("Found free roll")
                 self.adb_Manager.click_image(screen, FREEROLL)
+            elif self.adb_Manager.check_exists(screen, RETURN):
+                print("Found RETURN")
+                self.adb_Manager.click_image(screen, RETURN)
             else:
                 if self.adb_Manager.check_exists(screen, OUT_OF_DICE):
                     print("Out of dice! Stopping...")
@@ -679,19 +689,19 @@ class Bot:
                             self.adb_Manager.click_image(screen, STICKER_SEARCH)
                         time.sleep(1)
 
-                        #self.adb_Manager.type_text("yule")
-                        self.adb_Manager.type_text("mktyn")
+                        self.adb_Manager.type_text("yule")
+                        #self.adb_Manager.type_text("mktyn")
                         time.sleep(1)
 
                         screen = self.adb_Manager.capture_screen()
-                        if self.adb_Manager.check_exists(screen, STICKER_PERSON2):
-                            self.adb_Manager.click_image(screen, STICKER_PERSON2)
+                        if self.adb_Manager.check_exists(screen, STICKER_PERSON):
+                            self.adb_Manager.click_image(screen, STICKER_PERSON)
                         time.sleep(1)
 
                         screen = self.adb_Manager.capture_screen()
-                        if self.adb_Manager.check_exists(screen, STICKER_PERSON2):
+                        if self.adb_Manager.check_exists(screen, STICKER_PERSON):
                             print("Selecting User")
-                            self.adb_Manager.click_image(screen, STICKER_PERSON2)
+                            self.adb_Manager.click_image(screen, STICKER_PERSON)
                         time.sleep(1)
 
                         screen = self.adb_Manager.capture_screen()
@@ -753,6 +763,7 @@ class Bot:
             self.do_dailies()
             self.roll_dice()
             self.build_buildings()
+            #self.roll_dice()
             self.collect_free_gift()
             self.open_community_chest()
             self.send_stickers()
