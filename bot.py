@@ -26,6 +26,7 @@ LOGIN_GUEST2 = os.path.join(IMAGE_DIR, "loginAsGuest2.png")
 LOGIN_GUEST3 = os.path.join(IMAGE_DIR, "loginAsGuest3.png")
 CAN_BUILD = os.path.join(IMAGE_DIR, "canBuild.png")
 BUILD_ICON = os.path.join(IMAGE_DIR, "buildMoney.png")
+BUILD_ICON2 = os.path.join(IMAGE_DIR, "buildMoney2.png")
 NO_MONEY = os.path.join(IMAGE_DIR, "noMoneyBuild.png")
 NEW_BOARD = os.path.join(IMAGE_DIR, "newBoardGO.png")
 BUILD_TOP = os.path.join(IMAGE_DIR, "buildTop.png")
@@ -59,6 +60,7 @@ LETSROLL = os.path.join(IMAGE_DIR, "letsRoll.png")
 ROLLOUT = os.path.join(IMAGE_DIR, "rollOut.png")
 FREEROLL = os.path.join(IMAGE_DIR, "freeRoll.png")
 RETURN = os.path.join(IMAGE_DIR, "return.png")
+ROLL = os.path.join(IMAGE_DIR, "roll.png")
 
 class BluestacksManager:
     def __init__(self):
@@ -352,15 +354,15 @@ class Bot:
             elif self.adb_Manager.check_exists(screen, RED_CROSS2):
                 print("Found Red Cross: Clicking on Cross")
                 self.adb_Manager.click_image(screen, RED_CROSS2)
-            elif self.adb_Manager.check_exists(screen, LETSROLL):
+            elif self.adb_Manager.check_exists(screen, ROLL):
                 print("Found Lets ROLL")
-                self.adb_Manager.click_image(screen, LETSROLL)
-            elif self.adb_Manager.check_exists(screen, ROLLOUT):
-                print("Found ROLLOUT")
-                self.adb_Manager.click_image(screen, ROLLOUT)
+                self.adb_Manager.click_image(screen, ROLL)
             elif self.adb_Manager.check_exists(screen, RETURN):
                 print("Found RETURN")
                 self.adb_Manager.click_image(screen, RETURN)
+            elif self.adb_Manager.check_exists(screen, CLAIM):
+                print("Found Claimm")
+                self.adb_Manager.click_image(screen, CLAIM)
 
             time.sleep(3.5)
             
@@ -390,9 +392,9 @@ class Bot:
         elif self.adb_Manager.check_exists(screen, SKIP):
                 print("Found WHEEL SPIN: SPINNING")
                 self.adb_Manager.click_image(screen, SKIP)
-        elif self.adb_Manager.check_exists(screen, LETSROLL):
+        elif self.adb_Manager.check_exists(screen, ROLL):
                 print("Found Lets ROLL")
-                self.adb_Manager.click_image(screen, LETSROLL)
+                self.adb_Manager.click_image(screen, ROLL)
             
 
     def roll_dice(self):
@@ -440,9 +442,9 @@ class Bot:
             elif self.adb_Manager.check_exists(screen, CASHGRAB):
                 print("Found CASHGRAB")
                 self.adb_Manager.click_image(screen, CASHGRAB)
-            elif self.adb_Manager.check_exists(screen, FREEROLL):
+            elif self.adb_Manager.check_exists(screen, ROLL):
                 print("Found free roll")
-                self.adb_Manager.click_image(screen, FREEROLL)
+                self.adb_Manager.click_image(screen, ROLL)
             elif self.adb_Manager.check_exists(screen, RETURN):
                 print("Found RETURN")
                 self.adb_Manager.click_image(screen, RETURN)
@@ -527,6 +529,12 @@ class Bot:
                     sorted_buildings = sorted(buildings)
                     for coords in sorted_buildings:
                         self.adb_Manager.click_button(coords)
+                elif self.adb_Manager.check_exists(screen, BUILD_ICON2):
+                    print("building building...")
+                    buildings = self.adb_Manager.check_exists_multiple(screen, BUILD_ICON2, 5)
+                    sorted_buildings = sorted(buildings)
+                    for coords in sorted_buildings:
+                        self.adb_Manager.click_button(coords)
                 else:
                     self.close_stuff()
                     break
@@ -585,12 +593,9 @@ class Bot:
             elif self.adb_Manager.check_exists(screen, CASHGRAB):
                 print("Found CASHGRAB")
                 self.adb_Manager.click_image(screen, CASHGRAB)
-            elif self.adb_Manager.check_exists(screen, ROLLOUT):
-                print("Found ROLLOUT")
-                self.adb_Manager.click_image(screen, ROLLOUT)
-            elif self.adb_Manager.check_exists(screen, FREEROLL):
-                print("Found free roll")
-                self.adb_Manager.click_image(screen, FREEROLL)
+            elif self.adb_Manager.check_exists(screen, ROLL):
+                print("Found ROLL")
+                self.adb_Manager.click_image(screen, ROLL)
             elif self.adb_Manager.check_exists(screen, RETURN):
                 print("Found RETURN")
                 self.adb_Manager.click_image(screen, RETURN)
@@ -689,19 +694,19 @@ class Bot:
                             self.adb_Manager.click_image(screen, STICKER_SEARCH)
                         time.sleep(1)
 
-                        self.adb_Manager.type_text("yule")
-                        #self.adb_Manager.type_text("mktyn")
+                        #self.adb_Manager.type_text("yule")
+                        self.adb_Manager.type_text("mktyn")
                         time.sleep(1)
 
                         screen = self.adb_Manager.capture_screen()
-                        if self.adb_Manager.check_exists(screen, STICKER_PERSON):
-                            self.adb_Manager.click_image(screen, STICKER_PERSON)
+                        if self.adb_Manager.check_exists(screen, STICKER_PERSON2):
+                            self.adb_Manager.click_image(screen, STICKER_PERSON2)
                         time.sleep(1)
 
                         screen = self.adb_Manager.capture_screen()
-                        if self.adb_Manager.check_exists(screen, STICKER_PERSON):
+                        if self.adb_Manager.check_exists(screen, STICKER_PERSON2):
                             print("Selecting User")
-                            self.adb_Manager.click_image(screen, STICKER_PERSON)
+                            self.adb_Manager.click_image(screen, STICKER_PERSON2)
                         time.sleep(1)
 
                         screen = self.adb_Manager.capture_screen()
