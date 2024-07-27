@@ -3,7 +3,6 @@ import time
 import cv2
 import numpy as np
 from ppadb.client import Client as AdbClient
-import time
 import os
 
 IMAGE_DIR = "images"
@@ -61,6 +60,7 @@ ROLLOUT = os.path.join(IMAGE_DIR, "rollOut.png")
 FREEROLL = os.path.join(IMAGE_DIR, "freeRoll.png")
 RETURN = os.path.join(IMAGE_DIR, "return.png")
 ROLL = os.path.join(IMAGE_DIR, "roll.png")
+GOTIT = os.path.join(IMAGE_DIR, "gotit.png")
 
 class BluestacksManager:
     def __init__(self):
@@ -259,6 +259,8 @@ class Bot:
         count = 0
         while not self.adb_Manager.find_and_check_exist(GO_BUTTON) and count<10:
             screen = self.adb_Manager.capture_screen()
+            if count > 5:
+                self.close_stuff_one_loop()
             if self.adb_Manager.check_exists(screen, SHUTDOWN):
                 print("Shutting player down!")
                 self.adb_Manager.click_image(screen, SHUTDOWN)
@@ -363,6 +365,10 @@ class Bot:
             elif self.adb_Manager.check_exists(screen, CLAIM):
                 print("Found Claimm")
                 self.adb_Manager.click_image(screen, CLAIM)
+            elif self.adb_Manager.check_exists(screen, GOTIT):
+                print("Found GOTIT")
+                self.adb_Manager.click_image(screen, GOTIT)
+
 
             time.sleep(3.5)
             
@@ -390,11 +396,20 @@ class Bot:
             print("Found Grey Cross: Clicking on Cross")
             self.adb_Manager.click_image(screen, GREY_CROSS)
         elif self.adb_Manager.check_exists(screen, SKIP):
-                print("Found WHEEL SPIN: SPINNING")
-                self.adb_Manager.click_image(screen, SKIP)
+            print("Found WHEEL SPIN: SPINNING")
+            self.adb_Manager.click_image(screen, SKIP)
         elif self.adb_Manager.check_exists(screen, ROLL):
-                print("Found Lets ROLL")
-                self.adb_Manager.click_image(screen, ROLL)
+            print("Found Lets ROLL")
+            self.adb_Manager.click_image(screen, ROLL)
+        elif self.adb_Manager.check_exists(screen, RED_CROSS2):
+            print("Found Red Cross: Clicking on Cross")
+            self.adb_Manager.click_image(screen, RED_CROSS2)
+        elif self.adb_Manager.check_exists(screen, RETURN):
+            print("Found RETURN")
+            self.adb_Manager.click_image(screen, RETURN)
+        elif self.adb_Manager.check_exists(screen, CLAIM):
+            print("Found Claimm")
+            self.adb_Manager.click_image(screen, CLAIM)
             
 
     def roll_dice(self):
@@ -599,6 +614,9 @@ class Bot:
             elif self.adb_Manager.check_exists(screen, RETURN):
                 print("Found RETURN")
                 self.adb_Manager.click_image(screen, RETURN)
+            elif self.adb_Manager.check_exists(screen, GOTIT):
+                print("Found GOTIT")
+                self.adb_Manager.click_image(screen, GOTIT)
             else:
                 if self.adb_Manager.check_exists(screen, OUT_OF_DICE):
                     print("Out of dice! Stopping...")
