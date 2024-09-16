@@ -12,7 +12,7 @@ if len(devices) == 0:
     print("No devices connected")
     exit(1)
 
-device = devices[1]  # Assume the first device is the target
+device = devices[0]  # Assume the first device is the target
 
 # Send a tap command
 #device.shell("input tap 437 1220")

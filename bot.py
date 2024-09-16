@@ -55,12 +55,13 @@ STICKER_SEND = os.path.join(IMAGE_DIR, "stickerSend.png")
 STICKER_SEND = os.path.join(IMAGE_DIR, "stickerSend.png")
 CLAIM = os.path.join(IMAGE_DIR, "claim.png")
 CASHGRAB = os.path.join(IMAGE_DIR, "cashgrab.png")
-LETSROLL = os.path.join(IMAGE_DIR, "letsRoll.png")
+LETS = os.path.join(IMAGE_DIR, "lets.png")
 ROLLOUT = os.path.join(IMAGE_DIR, "rollOut.png")
 FREEROLL = os.path.join(IMAGE_DIR, "freeRoll.png")
 RETURN = os.path.join(IMAGE_DIR, "return.png")
 ROLL = os.path.join(IMAGE_DIR, "roll.png")
 GOTIT = os.path.join(IMAGE_DIR, "gotit.png")
+GREENBAR = os.path.join(IMAGE_DIR, "greenBar.png")
 
 class BluestacksManager:
     def __init__(self):
@@ -78,7 +79,7 @@ class BluestacksManager:
         if len(self.client.devices()) == 0:
             print("No devices connected")
             exit(1)
-        self.device = self.client.devices()[1]  
+        self.device = self.client.devices()[0]  
 
 class AdbManager:
     def __init__(self, adb_device):
@@ -312,6 +313,9 @@ class Bot:
             elif self.adb_Manager.check_exists(screen, SKIP):
                 print("Found SKIP")
                 self.adb_Manager.click_image(screen, SKIP)
+            elif self.adb_Manager.check_exists(screen, RED_CROSS):
+                print("Found Red Cross: Clicking on Cross")
+                self.adb_Manager.click_image(screen, RED_CROSS)
 
             time.sleep(2)
         print("Found Star: Game is open")
@@ -368,6 +372,12 @@ class Bot:
             elif self.adb_Manager.check_exists(screen, GOTIT):
                 print("Found GOTIT")
                 self.adb_Manager.click_image(screen, GOTIT)
+            elif self.adb_Manager.check_exists(screen, LETS):
+                print("Found LETS")
+                self.adb_Manager.click_image(screen, LETS)
+            elif self.adb_Manager.check_exists(screen, GREENBAR):
+                print("Found greenBar")
+                self.adb_Manager.click_image(screen, GREENBAR)
 
 
             time.sleep(3.5)
@@ -396,7 +406,7 @@ class Bot:
             print("Found Grey Cross: Clicking on Cross")
             self.adb_Manager.click_image(screen, GREY_CROSS)
         elif self.adb_Manager.check_exists(screen, SKIP):
-            print("Found WHEEL SPIN: SPINNING")
+            print("SKIP")
             self.adb_Manager.click_image(screen, SKIP)
         elif self.adb_Manager.check_exists(screen, ROLL):
             print("Found Lets ROLL")
@@ -410,6 +420,9 @@ class Bot:
         elif self.adb_Manager.check_exists(screen, CLAIM):
             print("Found Claimm")
             self.adb_Manager.click_image(screen, CLAIM)
+        elif self.adb_Manager.check_exists(screen, GREENBAR):
+            print("Found greenBar")
+            self.adb_Manager.click_image(screen, GREENBAR)
             
 
     def roll_dice(self):
@@ -419,8 +432,12 @@ class Bot:
         while gotDice:
             screen = self.adb_Manager.capture_screen()  
             print("Finding Go Button...")
+            if self.adb_Manager.check_exists(screen, SKIP):
+                print("Found SKIP")
+                self.adb_Manager.click_image(screen, SKIP)
+            
             if self.adb_Manager.check_exists(screen, GO_BUTTON):
-                if count > 100:
+                if count > 20:
                     break  
                 count = count + 1
                 print("Found Go Button: Clicking on Go")
@@ -463,6 +480,9 @@ class Bot:
             elif self.adb_Manager.check_exists(screen, RETURN):
                 print("Found RETURN")
                 self.adb_Manager.click_image(screen, RETURN)
+            elif self.adb_Manager.check_exists(screen, GREENBAR):
+                print("Found greenBar")
+                self.adb_Manager.click_image(screen, GREENBAR)
             else:
                 if self.adb_Manager.check_exists(screen, OUT_OF_DICE):
                     print("Out of dice! Stopping...")
@@ -505,7 +525,7 @@ class Bot:
             if self.adb_Manager.check_exists(screen, CHEST_OPEN):
                 print("Clicking open chest")
                 self.adb_Manager.click_image(screen, CHEST_OPEN)
-                time.sleep(3)
+                time.sleep(4)
                 while not self.adb_Manager.check_exists(screen, CHEST_DONE):
                     screen = self.adb_Manager.capture_screen()
                     if self.adb_Manager.check_exists(screen, CHEST_TRIANGLE): # can fix this 
@@ -570,6 +590,9 @@ class Bot:
         while gotDice:
             screen = self.adb_Manager.capture_screen()  
             print("Finding Go Button...")
+            if self.adb_Manager.check_exists(screen, SKIP):
+                print("Found SKIP")
+                self.adb_Manager.click_image(screen, SKIP)
             if self.adb_Manager.check_exists(screen, GO_BUTTON):
                 if count > 5:
                     break  
@@ -617,6 +640,12 @@ class Bot:
             elif self.adb_Manager.check_exists(screen, GOTIT):
                 print("Found GOTIT")
                 self.adb_Manager.click_image(screen, GOTIT)
+            elif self.adb_Manager.check_exists(screen, LETS):
+                print("Found LETS")
+                self.adb_Manager.click_image(screen, LETS)
+            elif self.adb_Manager.check_exists(screen, GREENBAR):
+                print("Found greenBar")
+                self.adb_Manager.click_image(screen, GREENBAR)
             else:
                 if self.adb_Manager.check_exists(screen, OUT_OF_DICE):
                     print("Out of dice! Stopping...")
@@ -712,7 +741,7 @@ class Bot:
                             self.adb_Manager.click_image(screen, STICKER_SEARCH)
                         time.sleep(1)
 
-                        #self.adb_Manager.type_text("yule")
+                        #self.adb_Manager.type_text("yul")
                         self.adb_Manager.type_text("mktyn")
                         time.sleep(1)
 
@@ -786,10 +815,10 @@ class Bot:
             self.do_dailies()
             self.roll_dice()
             self.build_buildings()
-            #self.roll_dice()
+            self.roll_dice()
             self.collect_free_gift()
-            self.open_community_chest()
-            self.send_stickers()
+            #self.open_community_chest()
+            #self.send_stickers()
 
         except KeyboardInterrupt:
             print("Shutdown requested...")
