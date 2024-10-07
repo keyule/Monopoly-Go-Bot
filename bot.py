@@ -4,12 +4,15 @@ import cv2
 import numpy as np
 from ppadb.client import Client as AdbClient
 import os
+import argparse
 
+VLEVEL = 0
 IMAGE_DIR = "images"
 GO_BUTTON = os.path.join(IMAGE_DIR, "go.png")
 BLUE_STAR = os.path.join(IMAGE_DIR, "blueStar.png")
 RED_CROSS = os.path.join(IMAGE_DIR, "redCross.png")
 RED_CROSS2 = os.path.join(IMAGE_DIR, "redCross2.png")
+RED_CROSS3 = os.path.join(IMAGE_DIR, "redCross3.png")
 JAIL = os.path.join(IMAGE_DIR, "jail.png")
 SHUTDOWN = os.path.join(IMAGE_DIR, "shutdownMarker.png")
 SHUTDOWN2 = os.path.join(IMAGE_DIR, "shutdownMarker2.png")
@@ -56,12 +59,13 @@ STICKER_SEND = os.path.join(IMAGE_DIR, "stickerSend.png")
 CLAIM = os.path.join(IMAGE_DIR, "claim.png")
 CASHGRAB = os.path.join(IMAGE_DIR, "cashgrab.png")
 LETS = os.path.join(IMAGE_DIR, "lets.png")
-ROLLOUT = os.path.join(IMAGE_DIR, "rollOut.png")
-FREEROLL = os.path.join(IMAGE_DIR, "freeRoll.png")
 RETURN = os.path.join(IMAGE_DIR, "return.png")
 ROLL = os.path.join(IMAGE_DIR, "roll.png")
 GOTIT = os.path.join(IMAGE_DIR, "gotit.png")
-GREENBAR = os.path.join(IMAGE_DIR, "greenBar.png")
+AWESOME = os.path.join(IMAGE_DIR, "awesome.png")
+PEGE = os.path.join(IMAGE_DIR, "PegE.png")
+FREEROLL = os.path.join(IMAGE_DIR, "freeRoll.png")
+DIG = os.path.join(IMAGE_DIR, "dig.png")
 
 class BluestacksManager:
     def __init__(self):
@@ -284,6 +288,7 @@ class Bot:
                 doors = self.adb_Manager.check_exists_multiple(screen, HEIST, 7)
                 for coords in doors:
                     self.adb_Manager.click_button(coords)
+                    time.sleep(0.5)
             elif self.adb_Manager.check_exists(screen, COLLECT):
                 print("Collecting Money...")
                 self.adb_Manager.click_image(screen, COLLECT)
@@ -375,9 +380,12 @@ class Bot:
             elif self.adb_Manager.check_exists(screen, LETS):
                 print("Found LETS")
                 self.adb_Manager.click_image(screen, LETS)
-            elif self.adb_Manager.check_exists(screen, GREENBAR):
-                print("Found greenBar")
-                self.adb_Manager.click_image(screen, GREENBAR)
+            elif self.adb_Manager.check_exists(screen, AWESOME):
+                print("Found AWESOME")
+                self.adb_Manager.click_image(screen, AWESOME)
+            elif self.adb_Manager.check_exists(screen, DIG):
+                print("Found DIG")
+                self.adb_Manager.click_image(screen, DIG)
 
 
             time.sleep(3.5)
@@ -420,9 +428,6 @@ class Bot:
         elif self.adb_Manager.check_exists(screen, CLAIM):
             print("Found Claimm")
             self.adb_Manager.click_image(screen, CLAIM)
-        elif self.adb_Manager.check_exists(screen, GREENBAR):
-            print("Found greenBar")
-            self.adb_Manager.click_image(screen, GREENBAR)
             
 
     def roll_dice(self):
@@ -477,12 +482,15 @@ class Bot:
             elif self.adb_Manager.check_exists(screen, ROLL):
                 print("Found free roll")
                 self.adb_Manager.click_image(screen, ROLL)
+            elif self.adb_Manager.check_exists(screen, FREEROLL):
+                print("Found FREE ROLL")
+                self.adb_Manager.click_image(screen, FREEROLL)
             elif self.adb_Manager.check_exists(screen, RETURN):
                 print("Found RETURN")
                 self.adb_Manager.click_image(screen, RETURN)
-            elif self.adb_Manager.check_exists(screen, GREENBAR):
-                print("Found greenBar")
-                self.adb_Manager.click_image(screen, GREENBAR)
+            elif self.adb_Manager.check_exists(screen, DIG):
+                print("Found DIG")
+                self.adb_Manager.click_image(screen, DIG)
             else:
                 if self.adb_Manager.check_exists(screen, OUT_OF_DICE):
                     print("Out of dice! Stopping...")
@@ -499,9 +507,9 @@ class Bot:
             screen = self.adb_Manager.capture_screen()
             self.adb_Manager.click_image(screen, GIFT)
             time.sleep(1)
-            for x in range(4):
+            for x in range(7):
                 self.adb_Manager.swipe_right()
-                time.sleep(0.5)
+                time.sleep(1)
             screen = self.adb_Manager.capture_screen()
             self.adb_Manager.click_image(screen, FREE)
             time.sleep(1)
@@ -564,6 +572,7 @@ class Bot:
                     sorted_buildings = sorted(buildings)
                     for coords in sorted_buildings:
                         self.adb_Manager.click_button(coords)
+                        time.sleep(0.5)
                 elif self.adb_Manager.check_exists(screen, BUILD_ICON2):
                     print("building building...")
                     buildings = self.adb_Manager.check_exists_multiple(screen, BUILD_ICON2, 5)
@@ -593,6 +602,13 @@ class Bot:
             if self.adb_Manager.check_exists(screen, SKIP):
                 print("Found SKIP")
                 self.adb_Manager.click_image(screen, SKIP)
+            elif self.adb_Manager.check_exists(screen, COLLECT):
+                print("Collecting stuff...")
+                self.adb_Manager.click_image(screen, COLLECT)
+            elif self.adb_Manager.check_exists(screen, OUT_OF_DICE):
+                print("Out of dice! Stopping...")
+                self.close_stuff()
+                gotDice = False
             if self.adb_Manager.check_exists(screen, GO_BUTTON):
                 if count > 5:
                     break  
@@ -643,9 +659,24 @@ class Bot:
             elif self.adb_Manager.check_exists(screen, LETS):
                 print("Found LETS")
                 self.adb_Manager.click_image(screen, LETS)
-            elif self.adb_Manager.check_exists(screen, GREENBAR):
-                print("Found greenBar")
-                self.adb_Manager.click_image(screen, GREENBAR)
+            elif self.adb_Manager.check_exists(screen, AWESOME):
+                print("Found AWESOME")
+                self.adb_Manager.click_image(screen, AWESOME)
+            elif self.adb_Manager.check_exists(screen, RED_CROSS3):
+                print("Found REDCROSS")
+                self.adb_Manager.click_image(screen, RED_CROSS3)
+            elif self.adb_Manager.check_exists(screen, RED_CROSS):
+                print("Found REDCROSS")
+                self.adb_Manager.click_image(screen, RED_CROSS)
+            elif self.adb_Manager.check_exists(screen, PEGE):
+                print("Found PEG E")
+                self.adb_Manager.click_image(screen, PEGE)
+            elif self.adb_Manager.check_exists(screen, FREEROLL):
+                print("Found FREE ROLL")
+                self.adb_Manager.click_image(screen, FREEROLL)
+            elif self.adb_Manager.check_exists(screen, DIG):
+                print("Found DIG")
+                self.adb_Manager.click_image(screen, DIG)
             else:
                 if self.adb_Manager.check_exists(screen, OUT_OF_DICE):
                     print("Out of dice! Stopping...")
@@ -683,6 +714,7 @@ class Bot:
                     claims = self.adb_Manager.check_exists_multiple(screen, DAILY_CLAIM, 3)
                     for coords in claims:
                         self.adb_Manager.click_button(coords)
+                        time.sleep(0.5)
                     self.close_stuff()
                 print("FINISHED dailies")
             else:
@@ -695,7 +727,7 @@ class Bot:
 
     def send_stickers(self):
         #23 albums click left 23 times
-        albums = 23
+        albums = 18
         #170 764
         #make sure at main screen/check for go sign
         while not self.adb_Manager.find_and_check_exist(GO_BUTTON):
@@ -741,19 +773,34 @@ class Bot:
                             self.adb_Manager.click_image(screen, STICKER_SEARCH)
                         time.sleep(1)
 
-                        #self.adb_Manager.type_text("yul")
-                        self.adb_Manager.type_text("mktyn")
+                        textToType = ""
+                        stickerPerson = None
+
+                        # Set variables based on VLEVEL
+                        if VLEVEL == 0:
+                            textToType = "babyacai"
+                            stickerPerson = STICKER_PERSON
+                        elif VLEVEL == 1:
+                            textToType = "mktyn"
+                            stickerPerson = STICKER_PERSON2
+                        else:
+                            print(f"VLEVEL {VLEVEL} is not handled.")
+                            # Optionally return or raise an error if you need to handle invalid VLEVELs
+                            return
+
+                        # Now use the variables `textToType` and `stickerPerson` in the logic
+                        self.adb_Manager.type_text(textToType)
                         time.sleep(1)
 
                         screen = self.adb_Manager.capture_screen()
-                        if self.adb_Manager.check_exists(screen, STICKER_PERSON2):
-                            self.adb_Manager.click_image(screen, STICKER_PERSON2)
+                        if self.adb_Manager.check_exists(screen, stickerPerson):
+                            self.adb_Manager.click_image(screen, stickerPerson)
                         time.sleep(1)
 
                         screen = self.adb_Manager.capture_screen()
-                        if self.adb_Manager.check_exists(screen, STICKER_PERSON2):
-                            print("Selecting User")
-                            self.adb_Manager.click_image(screen, STICKER_PERSON2)
+                        if self.adb_Manager.check_exists(screen, stickerPerson):
+                            print(f"Selecting User for VLEVEL {VLEVEL}")
+                            self.adb_Manager.click_image(screen, stickerPerson)
                         time.sleep(1)
 
                         screen = self.adb_Manager.capture_screen()
@@ -816,14 +863,37 @@ class Bot:
             self.roll_dice()
             self.build_buildings()
             self.roll_dice()
-            self.collect_free_gift()
-            #self.open_community_chest()
-            #self.send_stickers()
+            self.close_stuff()
+            #self.collect_free_gift()
+            self.open_community_chest()
+            self.send_stickers()
+            time.sleep(1)
+            self.close_stuff()
 
         except KeyboardInterrupt:
             print("Shutdown requested...")
 
+
+def parse_args():
+    parser = argparse.ArgumentParser(description="Run the bot with mumu version")
+    
+    # Add a verbosity argument (-v or --verbosity)
+    parser.add_argument(
+        '-v', '--version',
+        type=int,
+        choices=[0, 1],  # Limits the choices to 0, 1, 2, or 3
+        help="only got 0 and 1",
+        default=0  # Default value if the user does not provide -v
+    )
+
+    args = parser.parse_args()
+
+    # Set the global verbosity level based on user input
+    global VLEVEL
+    VLEVEL = args.version
+
 if __name__ == "__main__":
+    parse_args()
     bot = Bot()
     bot.setup()
     bot.run()
